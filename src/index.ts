@@ -4,7 +4,6 @@ import 'dotenv/config';
 import config from '@config/app.config';
 import notFound from '@middlewares/404';
 import errorHandler from '@middlewares/errorHandler';
-import appRoutes from '@routes/appRoutes';
 import router from '@routes/index';
 import chalk from 'chalk';
 import cookieParser from 'cookie-parser';
@@ -41,8 +40,16 @@ app.use(limiter);
 app.use(helmet());
 
 // Routes Setup
-app.use('/', appRoutes);
-app.use('/api/v1', router);
+router.get('/health', (_req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'Service is healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
+
+app.use('/', router);
 
 app.use(notFound);
 app.use(errorHandler);
