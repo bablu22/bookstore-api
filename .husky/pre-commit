@@ -1,6 +1,24 @@
-# Remove these lines:
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Retain or add your desired commands:
-npm run lint:fix
+echo "Running pre-push checks..."
+
+# Check for linting errors
+echo "Running lint check..."
+npm run lint
+LINT_RESULT=$?
+if [ $LINT_RESULT -ne 0 ]; then
+  echo "❌ Linting failed. Please fix the errors before pushing."
+  exit 1
+fi
+
+# Check for build errors
+echo "Running build check..."
+npm run build
+BUILD_RESULT=$?
+if [ $BUILD_RESULT -ne 0 ]; then
+  echo "❌ Build failed. Please fix the errors before pushing."
+  exit 1
+fi
+
+echo "✅ All checks passed! Proceeding with push..."
