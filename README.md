@@ -1,241 +1,126 @@
-# 🚀 **Node.js Express TypeScript Boilerplate**
+# Bookstore API
 
-## 📝 **Project Overview**
+A RESTful API for managing a bookstore's inventory and operations.
 
-This boilerplate is a robust, production-ready Node.js and Express.js project template designed to supercharge your backend development. Equipped with TypeScript, advanced authentication mechanisms, Role-Based Access Control (RBAC), flexible querying capabilities, and seamless integrations with MongoDB and Redis, it ensures a smooth and efficient development experience.
+## Prerequisites
 
----
+Before you begin, ensure you have the following installed:
 
-## ✨ **Key Features**
+- [Node.js](https://nodejs.org/) (v20 or higher)
+- [Docker](https://www.docker.com/get-started)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/downloads)
 
-### 🔐 **Advanced Authentication**
+## Installation
 
-- Multi-factor authentication (MFA) support
-- JWT-based authentication for secure sessions
-- Comprehensive Role-Based Access Control (RBAC)
+1. Clone the repository:
 
-### 🛠 **Powerful Development Tools**
+   ```bash
+   git clone https://github.com/bablu22/bookstore-api.git
+   ```
 
-- **TypeScript**: Ensure type safety and reduce runtime errors
-- **ESLint**: Maintain code quality
-- **Prettier**: Enforce consistent code formatting
-- **Husky**: Leverage Git hooks for streamlined workflows
+2. Navigate to the project directory:
 
-### 📦 **Modular Architecture**
+   ```bash
+   cd bookstore-api
+   ```
 
-- Automatic module scaffolding
-- Effortless route integration
-- Simplified resource and permission management
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### 💾 **Flexible Storage Options**
+## Database Setup
 
-- Local file system storage
-- Cloudinary integration for cloud-based storage
+The project uses PostgreSQL as its database, which is containerized using Docker.
 
-### 🔍 **Dynamic Querying**
+1. Start the database services:
 
-- QueryBuilder for flexible and advanced data retrieval
-- Comprehensive filtering, searching, sorting, and population options
+   ```bash
+   docker-compose up -d
+   ```
 
----
+   This command will create and start the following services:
 
-## 🛠 **Prerequisites**
+   - PostgreSQL database server (accessible on port 5432)
+   - pgAdmin 4 (accessible at http://localhost:5050)
 
-- Node.js (v18+ recommended)
-- npm or yarn
-- MongoDB
-- Redis
+2. Run database migrations:
 
----
+   ```bash
+   npx knex migrate:latest
+   ```
 
-## 🚦 **Quick Start**
+3. Seed the database with initial data:
+   ```bash
+   npx knex seed:run
+   ```
 
-### 1. Clone the Repository
+## Environment Configuration
 
-```bash
-git clone https://github.com/bablu22/node-express-boilerplate.git
-cd node-express-boilerplate
+Create a `.env` file in the root directory with the following configuration:
+
+```
+NODE_ENV=development
+PORT=5000
+
+# Database
+DB_HOST=localhost
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=bookstore
 ```
 
-### 2. Install Dependencies
+## Running the Application
 
-```bash
-npm install
-```
-
-### 3. Configure Environment
-
-```bash
-# Copy the environment template
-cp .env.example .env
-
-# Update .env with your configuration
-vim .env
-```
-
----
-
-## 📋 **Available Scripts**
-
-| Script                    | Description                                  |
-| ------------------------- | -------------------------------------------- |
-| `npm run dev`             | Start the development server with hot reload |
-| `npm run build`           | Compile TypeScript into JavaScript           |
-| `npm start`               | Launch the production server                 |
-| `npm run lint`            | Perform code quality checks with ESLint      |
-| `npm run format`          | Apply Prettier formatting rules              |
-| `npm run generate:module` | Create a new module scaffold                 |
-| `npm run db:seed`         | Seed the database with initial data          |
-
----
-
-## 🔧 **Module Generation**
-
-Easily generate a new module with a predefined scaffold:
-
-```bash
-npm run generate:module
-```
-
-This command generates the following structure in `src/modules/<moduleName>/`:
-
-- `<moduleName>.interface.ts`
-- `<moduleName>.service.ts`
-- `<moduleName>.model.ts`
-- `<moduleName>.routes.ts`
-- `<moduleName>.controller.ts`
-- `<moduleName>.validation.ts`
-
-🔔 **Note**: Generated modules are automatically integrated into the application's route system.
-
----
-
-## 🔐 **Authentication & Authorization**
-
-### Standard Authentication
-
-```typescript
-// Use authenticateJWT for basic JWT authentication
-router.get('/route', authenticateJWT, Controller.method);
-```
-
-### Role-Based Access Control (RBAC)
-
-```typescript
-// Use authorizeRequest for role-based access
-router.post(
-  '/create',
-  authenticateJWT,
-  authorizeRequest(['Admin', 'Editor']),
-  Controller.createMethod
-);
-```
-
----
-
-## 🔍 **QueryBuilder Usage**
-
-### Basic Search
-
-```typescript
-const products = await new QueryBuilder(Product, {
-  searchTerm: 'smartphone',
-  page: 1,
-  limit: 10
-})
-  .search(['name', 'description'])
-  .execute();
-```
-
-### Advanced Filtering
-
-```typescript
-const filteredProducts = await new QueryBuilder(Product, {
-  sort: '-price',
-  page: 1,
-  limit: 20
-})
-  .advancedFilter({
-    price: { $gte: 100, $lte: 1000 },
-    brand: { $in: ['Apple', 'Samsung'] },
-    inStock: true
-  })
-  .execute();
-```
-
----
-
-## 💾 **Storage Configuration**
-
-Set up your preferred storage solution in the `.env` file:
-
-```env
-# Local File System
-STORAGE_TYPE=local
-
-# Cloudinary Integration
-STORAGE_TYPE=cloudinary
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-```
-
----
-
-## 🚀 **Deployment**
-
-### 1. Build the Project
-
-```bash
-npm run build
-```
-
-### 2. Launch the Production Server
+Start the application:
 
 ```bash
 npm start
 ```
 
----
+The API will be available at `http://localhost:5000`.
 
-## 🤝 **Contributing**
+For development with automatic reloading:
 
-1. Fork the repository.
-2. Create a new feature branch:
+```bash
+npm run dev
+```
 
-   ```bash
-   git checkout -b feature/AmazingFeature
-   ```
+## pgAdmin Access
 
-3. Commit your changes:
+You can access pgAdmin to manage your PostgreSQL database:
 
-   ```bash
-   git commit -m 'Add some AmazingFeature'
-   ```
+1. Navigate to http://localhost:5050
+2. Login with:
+   - Email: admin@example.com
+   - Password: admin
+3. To connect to the PostgreSQL server:
+   - Right-click on "Servers" and select "Create" > "Server"
+   - Name: Bookstore (or any name you prefer)
+   - Connection tab:
+     - Host: postgres (use the service name, not localhost)
+     - Port: 5432
+     - Username: postgres
+     - Password: postgres
+     - Database: bookstore
 
-4. Push the branch:
+## Development
 
-   ```bash
-   git push origin feature/AmazingFeature
-   ```
+### Available Scripts
 
-5. Submit a Pull Request.
+- `npm start`: Start the application
+- `npm run dev`: Start the application with nodemon for development
+- `npm test`: Run tests
+- `npm run lint`: Run ESLint
 
----
+### Database Management
 
-## 📄 **License**
+- Run migrations: `npx knex migrate:latest`
+- Create a new migration: `npx knex migrate:make migration_name`
+- Run seeds: `npx knex seed:run`
+- Create a new seed: `npx knex seed:make seed_name`
 
-This project is licensed under the MIT License. See `LICENSE.md` for details.
+## License
 
----
-
-## 🙌 **Acknowledgements**
-
-- [Express.js](https://expressjs.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Mongoose](https://mongoosejs.com/)
-- [Passport.js](http://www.passportjs.org/)
-
----
-
-**Happy Coding! 💻🚀**
+[MIT](LICENSE)

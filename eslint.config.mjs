@@ -5,7 +5,14 @@ import prettier from 'eslint-config-prettier';
 export default tseslint.config(
   {
     // Globally ignored files
-    ignores: ['**/node_modules/', '**/dist/', '**/.git/', '**/.husky/']
+    ignores: [
+      '**/node_modules/',
+      '**/dist/',
+      '**/.git/',
+      '**/.husky/',
+      'postcss.config.js',
+      'tailwind.config.js'
+    ]
   },
   // Recommended base configs
   eslint.configs.recommended,
@@ -29,23 +36,7 @@ export default tseslint.config(
       // General rules
       'no-undef': 'off',
       'no-unused-expressions': 'error',
-      'prefer-const': 'warn',
-
-      '@typescript-eslint/naming-convention': [
-        'error',
-        {
-          selector: 'variable',
-          format: ['camelCase', 'UPPER_CASE', 'PascalCase', 'snake_case']
-        },
-        {
-          selector: 'function',
-          format: ['camelCase']
-        },
-        {
-          selector: 'class',
-          format: ['PascalCase']
-        }
-      ]
+      'prefer-const': 'warn'
     },
     languageOptions: {
       globals: {

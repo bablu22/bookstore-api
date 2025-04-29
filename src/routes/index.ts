@@ -1,3 +1,4 @@
+import authorRoutes from '@modules/authors/author.routes';
 import bookRoutes from '@modules/books/books.routes';
 import { Router } from 'express';
 
@@ -7,6 +8,10 @@ const moduleRoutes = [
   {
     path: '/books',
     routes: bookRoutes
+  },
+  {
+    path: '/authors',
+    routes: authorRoutes
   }
 ];
 

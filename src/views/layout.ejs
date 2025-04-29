@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Literary Haven</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <%- typeof style !== 'undefined' ? style : '' %>
+  </head>
+  <body class="flex flex-col min-h-screen text-gray-900 bg-gray-50">
+    <%- include('partials/header') %>
+
+    <!-- Main Content -->
+    <main class="flex-grow px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8"><%- body %></main>
+
+    <%- include('partials/footer') %> <%- typeof script !== 'undefined' ? script : '' %>
+  </body>
+</html>

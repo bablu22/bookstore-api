@@ -9,11 +9,11 @@ import chalk from 'chalk';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { logger } from '@utils/logger';
-
+import { authorDetailsPage, homePage } from '@routes/views';
+import expressLayouts from 'express-ejs-layouts';
 const app = express();
 
 const limiter = rateLimit({
@@ -21,9 +21,7 @@ const limiter = rateLimit({
   max: 1000 // Limit each IP to 1000 requests per window
 });
 
-// make uploads folder public to access images
 const rootDir = process.cwd();
-app.use(`/uploads`, express.static(`${rootDir}/uploads`));
 
 // General middleware initialization
 app.use(express.json());
@@ -38,6 +36,12 @@ app.use(
 
 app.use(limiter);
 app.use(helmet());
+app.set('view engine', 'ejs');
+app.set('views', `${rootDir}/src/views`);
+app.use(expressLayouts);
+app.set('layout', 'layout');
+app.set('layout extractScripts', true);
+app.set('layout extractStyles', true);
 
 // Routes Setup
 router.get('/health', (_req, res) => {
@@ -49,6 +53,8 @@ router.get('/health', (_req, res) => {
   });
 });
 
+router.get('/', homePage);
+router.get('/authors/details/:id', authorDetailsPage);
 app.use('/', router);
 
 app.use(notFound);

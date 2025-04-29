@@ -1,0 +1,77 @@
+<header class="text-white shadow-lg bg-gradient-to-r from-blue-700 to-indigo-800">
+  <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <i class="mr-3 text-3xl fas fa-book-open"></i>
+        <h1 class="text-3xl font-bold">BookStore</h1>
+      </div>
+      <nav class="hidden md:block">
+        <ul class="flex space-x-8">
+          <li>
+            <a
+              href="/"
+              class="font-medium <%= currentPage === 'home' ? 'border-b-2 border-white' : '' %> hover:text-blue-200"
+              >Home</a
+            >
+          </li>
+
+          <li>
+            <a
+              href="/books"
+              class="font-medium <%= currentPage === 'books' ? 'border-b-2 border-white' : '' %> hover:text-blue-200"
+              >Books</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="md:hidden">
+        <button id="mobile-menu-button" class="text-white" aria-label="Toggle menu">
+          <i class="text-2xl fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="hidden mt-4 md:hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a
+          href="/"
+          class="block px-3 py-2 text-base font-medium rounded-md <%= currentPage === 'home' ? 'bg-blue-600 text-white' : 'text-white hover:bg-blue-600 hover:bg-opacity-75' %>"
+          >Home</a
+        >
+
+        <a
+          href="/books"
+          class="block px-3 py-2 text-base font-medium rounded-md <%= currentPage === 'books' ? 'bg-blue-600 text-white' : 'text-white hover:bg-blue-600 hover:bg-opacity-75' %>"
+          >Books</a
+        >
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Mobile menu toggle functionality
+  document.addEventListener('DOMContentLoaded', function () {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', function () {
+        mobileMenu.classList.toggle('hidden');
+
+        // Change icon based on menu state
+        const icon = mobileMenuButton.querySelector('i');
+        if (icon) {
+          if (mobileMenu.classList.contains('hidden')) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          }
+        }
+      });
+    }
+  });
+</script>

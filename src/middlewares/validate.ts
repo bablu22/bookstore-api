@@ -1,21 +1,36 @@
 import { NextFunction, Request, Response } from 'express';
-import { AnyZodObject, ZodTypeAny } from 'zod';
+import Joi from 'joi';
 
-const validate =
-  (schema: AnyZodObject | ZodTypeAny) =>
-  async (req: Request, res: Response, next: NextFunction) => {
+const validateBody = (schema: Joi.ObjectSchema) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      schema.parse({
-        body: req.body,
-        headers: req.headers,
-        query: req.query,
-        params: req.params,
-        cookies: req.cookies
+      const validatedData = await schema.validateAsync(req.body, {
+        abortEarly: false
       });
-      return next();
+
+      req.body = validatedData;
+      next();
     } catch (err) {
       next(err);
     }
   };
+};
 
-export default validate;
+const validateParams = (schema: Joi.ObjectSchema) => {
+  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      // Validate only the params against the schema
+      const validatedData = await schema.validateAsync(req.params, {
+        abortEarly: false
+      });
+
+      // Update the request params with validated data
+      req.params = validatedData;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  };
+};
+
+export { validateBody, validateParams };

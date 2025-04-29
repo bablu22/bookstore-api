@@ -17,10 +17,46 @@ export const getAllBooks: RequestHandler = asyncHandler(async (req, res) => {
   });
 });
 
-export const getBookById: RequestHandler = asyncHandler(async (req, res) => {});
+export const getBookById: RequestHandler = asyncHandler(async (req, res) => {
+  const book = await bookService.getBook(Number(req.params.id));
 
-export const createBook: RequestHandler = asyncHandler(async (req, res) => {});
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Book retrieved successfully',
+    data: book
+  });
+});
 
-export const updateBook: RequestHandler = asyncHandler(async (req, res) => {});
+export const createBook: RequestHandler = asyncHandler(async (req, res) => {
+  const book = await bookService.createBook(req);
 
-export const deleteBook: RequestHandler = asyncHandler(async (req, res) => {});
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: 'Book created successfully',
+    data: book
+  });
+});
+
+export const updateBook: RequestHandler = asyncHandler(async (req, res) => {
+  const book = await bookService.updateBook(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Book updated successfully',
+    data: book
+  });
+});
+
+export const deleteBook: RequestHandler = asyncHandler(async (req, res) => {
+  await bookService.deleteBook(req);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Book deleted successfully',
+    data: null
+  });
+});
