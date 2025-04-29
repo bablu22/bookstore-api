@@ -2,16 +2,15 @@
 
 A RESTful API for managing a bookstore's inventory and operations.
 
-## Prerequisites
+## 📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (v20 or higher)
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/get-started) and [Docker Compose](https://docs.docker.com/compose/install/) (optional - for local database setup)
 
-## Installation
+## 🚀 Installation
 
 1. Clone the repository:
 
@@ -30,9 +29,9 @@ Before you begin, ensure you have the following installed:
    npm install
    ```
 
-## Database Setup
+## 💾 Database Setup
 
-The project uses PostgreSQL as its database, which is containerized using Docker.
+### Option 1: Local Database with Docker (Development)
 
 1. Start the database services:
 
@@ -40,38 +39,55 @@ The project uses PostgreSQL as its database, which is containerized using Docker
    docker-compose up -d
    ```
 
-   This command will create and start the following services:
+   This command will create and start:
 
    - PostgreSQL database server (accessible on port 5432)
    - pgAdmin 4 (accessible at http://localhost:5050)
 
-2. Run database migrations:
+2. Configure local environment variables:
+   Create a `.env` file in the root directory with:
+   ```
+   NODE_ENV=development
+   PORT=5000
+   DB_HOST=localhost
+   DB_USER=postgres
+   DB_PASSWORD=postgres
+   DB_NAME=bookstore
+   ```
+
+### Option 2: Cloud Database (Production)
+
+If you prefer not to use Docker, you can connect to a cloud-based PostgreSQL database:
+
+1. Configure environment variables for production:
+   Create a `.env` file in the root directory with your cloud database credentials:
+   ```
+   NODE_ENV=production
+   PORT=5000
+   DB_HOST=ep-long-river-a42zuta2-pooler.us-east-1.aws.neon.tech
+   DB_USER=neondb_owner
+   DB_PASSWORD=npg_4aUKWSxXTLd9
+   DB_NAME=neondb
+   ```
+
+> **Note:** For production environments, store sensitive credentials securely and consider using environment variables rather than a .env file.
+
+## 🔄 Database Migration & Seeding
+
+After connecting to either a local or cloud database:
+
+1. Run database migrations:
 
    ```bash
    npx knex migrate:latest
    ```
 
-3. Seed the database with initial data:
+2. Seed the database with initial data:
    ```bash
    npx knex seed:run
    ```
 
-## Environment Configuration
-
-Create a `.env` file in the root directory with the following configuration:
-
-```
-NODE_ENV=development
-PORT=5000
-
-# Database
-DB_HOST=localhost
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=bookstore
-```
-
-## Running the Application
+## ▶️ Running the Application
 
 Start the application:
 
@@ -87,9 +103,9 @@ For development with automatic reloading:
 npm run dev
 ```
 
-## pgAdmin Access
+## 🔧 pgAdmin Access (Local Docker Setup Only)
 
-You can access pgAdmin to manage your PostgreSQL database:
+If using the local Docker setup, you can access pgAdmin to manage your PostgreSQL database:
 
 1. Navigate to http://localhost:5050
 2. Login with:
@@ -105,7 +121,7 @@ You can access pgAdmin to manage your PostgreSQL database:
      - Password: postgres
      - Database: bookstore
 
-## Development
+## 🛠️ Development
 
 ### Available Scripts
 
@@ -121,6 +137,6 @@ You can access pgAdmin to manage your PostgreSQL database:
 - Run seeds: `npx knex seed:run`
 - Create a new seed: `npx knex seed:make seed_name`
 
-## License
+## 📝 License
 
 [MIT](LICENSE)

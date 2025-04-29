@@ -13,7 +13,12 @@ const connection: Knex.ConnectionConfig = {
 
 const commonConfig: Knex.Config = {
   client: 'pg',
-  connection,
+  connection: {
+    ...connection,
+    ssl: {
+      rejectUnauthorized: true
+    }
+  },
   pool: {
     min: 2,
     max: 10

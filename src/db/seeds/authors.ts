@@ -5,7 +5,7 @@ export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
   await knex('authors').del();
 
-  const authors = Array(10)
+  const authors = Array(30)
     .fill(null)
     .map((_, index) => {
       return {
